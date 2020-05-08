@@ -327,11 +327,11 @@ carp_path_plot <- function(x,
   ## FIXME -- It looks like we don't actually have full fusion in `plot_frame_final`
   ##          (even in points which should be in the same cluster...)
 
-  g <- ggplot(mapping = aes_string(x = "V1", y = "V2", group = "Obs"))
+  g <- ggplot(mapping = aes(x = V1, y = V2, group = Obs))
 
   if (show_clusters) {
-    g <- g + geom_path(data = plot_frame_full, aes_string(color = "final_cluster"), linejoin="round", size=1) +
-             geom_point(data = plot_frame_final, aes_string(color = "final_cluster"), size = 4)
+    g <- g + geom_path(data = plot_frame_full, aes(color = final_cluster), linejoin="round", size=1) +
+             geom_point(data = plot_frame_final, aes(color = final_cluster), size = 4)
 
     if (!is.null(colors)) {
       g <- g + scale_color_manual(values = colors)
@@ -351,11 +351,11 @@ carp_path_plot <- function(x,
 
   if (repel_labels) {
     g + geom_text_repel(data = plot_frame_init,
-                        mapping = aes_string(label = "ObsLabel"),
+                        mapping = aes(label = ObsLabel),
                         size = label_size)
   } else {
     g + geom_text(data = plot_frame_init,
-                  mapping = aes_string(label = "ObsLabel"),
+                  mapping = aes(label = ObsLabel),
                   size = label_size)
   }
 }
@@ -458,17 +458,17 @@ carp_dynamic_path_plot <- function(x, axis, percent.seq){
   }))
 
   ggplot(plot_frame_animation,
-         aes_string(x = "V1", y = "V2", group = "Obs")) +
+         aes(x = V1, y = V2, group = Obs)) +
     geom_path(linejoin = "round", color = "red", size = 1) +
     geom_point(data = plot_frame_first,
-               aes_string(x = "FirstV1",
-                          y = "FirstV2"),
+               aes(x = FirstV1,
+                   y = FirstV2),
                color = "black",
                size = I(4)) +
     geom_text(data = plot_frame_first,
-              aes_string(x = "FirstV1",
-                         y = "FirstV2",
-                         label = "FirstObsLabel"),
+              aes(x = FirstV1,
+                  y = FirstV2,
+                  label = FirstObsLabel),
               size = I(6)) +
     guides(color = FALSE, size = FALSE) +
     theme(axis.title = element_text(size = 25),
