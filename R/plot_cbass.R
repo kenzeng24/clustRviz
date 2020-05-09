@@ -80,6 +80,10 @@
 #' \dontrun{
 #' plot(cbass_fit, type='interactive')
 #' }
+
+if(getRversion() >= "2.15.1")  {
+  utils::globalVariables(c("V1", "V2", "Obs", "final_cluster", "ObsLabel"))
+}
 plot.CBASS <- function(x,
                        ...,
                        type = c("heatmap",

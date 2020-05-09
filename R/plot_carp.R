@@ -67,7 +67,7 @@
 #' @importFrom shiny selectInput animationOptions renderPlot tabPanel
 #' @importFrom shiny br sidebarPanel mainPanel sidebarLayout
 #' @importFrom stats as.dendrogram median
-#' @importFrom ggplot2 ggplot aes_string geom_path geom_point geom_text guides theme
+#' @importFrom ggplot2 ggplot aes geom_path geom_point geom_text guides theme
 #' @importFrom ggplot2 element_text xlab ylab scale_color_manual
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom dplyr filter select distinct rename mutate left_join select_ %>%
@@ -80,6 +80,11 @@
 #' carp_fit <- CARP(presidential_speech)
 #' plot(carp_fit, type='interactive')
 #' }
+
+if(getRversion() >= "2.15.1")  {
+  utils::globalVariables(c("V1", "V2", "Obs", "FirstV1", "FirstV2", "final_cluster", "ObsLabel", "FirstObsLabel"))
+}
+
 plot.CARP <- function(x,
                       ...,
                       type = c("dendrogram", "path", "dynamic_path", "js", "interactive"),
@@ -89,7 +94,7 @@ plot.CARP <- function(x,
                       dend.ylab.cex = 1.2,
                       percent,
                       k,
-                      percent.seq = seq(0, 1, length.out = 100),
+                      percent.seq = seq(0, 1, length.out = 21),
                       max.nclust = 9,
                       min.nclust = 1) {
 
@@ -438,7 +443,7 @@ carp_dendro_plot <- function(x,
 #' @noRd
 #' @importFrom rlang .data
 #' @importFrom dplyr select filter rename left_join mutate bind_rows
-#' @importFrom ggplot2 ggplot aes_string geom_path geom_point geom_text guides
+#' @importFrom ggplot2 ggplot aes geom_path geom_point geom_text guides
 #' @importFrom ggplot2 theme element_text xlab ylab
 #' @importFrom gganimate transition_manual
 carp_dynamic_path_plot <- function(x, axis, percent.seq){
