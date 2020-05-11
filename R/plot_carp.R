@@ -81,10 +81,6 @@
 #' plot(carp_fit, type='interactive')
 #' }
 
-if(getRversion() >= "2.15.1")  {
-  utils::globalVariables(c("V1", "V2", "Obs", "FirstV1", "FirstV2", "final_cluster", "ObsLabel", "FirstObsLabel"))
-}
-
 plot.CARP <- function(x,
                       ...,
                       type = c("dendrogram", "path", "dynamic_path", "js", "interactive"),
@@ -332,11 +328,11 @@ carp_path_plot <- function(x,
   ## FIXME -- It looks like we don't actually have full fusion in `plot_frame_final`
   ##          (even in points which should be in the same cluster...)
 
-  g <- ggplot(mapping = aes(x = V1, y = V2, group = Obs))
+  g <- ggplot(mapping = aes(x = .data$V1, y = .data$V2, group = .data$Obs))
 
   if (show_clusters) {
-    g <- g + geom_path(data = plot_frame_full, aes(color = final_cluster), linejoin="round", size=1) +
-             geom_point(data = plot_frame_final, aes(color = final_cluster), size = 4)
+    g <- g + geom_path(data = plot_frame_full, aes(color = .data$final_cluster), linejoin="round", size=1) +
+             geom_point(data = plot_frame_final, aes(color = .data$final_cluster), size = 4)
 
     if (!is.null(colors)) {
       g <- g + scale_color_manual(values = colors)
@@ -356,11 +352,11 @@ carp_path_plot <- function(x,
 
   if (repel_labels) {
     g + geom_text_repel(data = plot_frame_init,
-                        mapping = aes(label = ObsLabel),
+                        mapping = aes(label = .data$ObsLabel),
                         size = label_size)
   } else {
     g + geom_text(data = plot_frame_init,
-                  mapping = aes(label = ObsLabel),
+                  mapping = aes(label = .data$ObsLabel),
                   size = label_size)
   }
 }
@@ -463,17 +459,17 @@ carp_dynamic_path_plot <- function(x, axis, percent.seq){
   }))
 
   ggplot(plot_frame_animation,
-         aes(x = V1, y = V2, group = Obs)) +
+         aes(x = .data$V1, y = .data$V2, group = .data$Obs)) +
     geom_path(linejoin = "round", color = "red", size = 1) +
     geom_point(data = plot_frame_first,
-               aes(x = FirstV1,
-                   y = FirstV2),
+               aes(x = .data$FirstV1,
+                   y = .data$FirstV2),
                color = "black",
                size = I(4)) +
     geom_text(data = plot_frame_first,
-              aes(x = FirstV1,
-                  y = FirstV2,
-                  label = FirstObsLabel),
+              aes(x = .data$FirstV1,
+                  y = .data$FirstV2,
+                  label = .data$FirstObsLabel),
               size = I(6)) +
     guides(color = FALSE, size = FALSE) +
     theme(axis.title = element_text(size = 25),
